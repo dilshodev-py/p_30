@@ -1,0 +1,17 @@
+
+
+
+transactions(O‘yin ichidagi barcha pul operatsiyalarini saqlaydi.)
+    id                  → Tranzaksiya unikal identifikatori (primary key). Har bir pul operatsiyasiga avtomatik ID beriladi.
+    player_id           → O‘yinchining players jadvalidagi ID si. Ushbu tranzaksiya qaysi o‘yinchiga tegishli ekanligini bildiradi. Agar o‘yinchi o‘chirilsa, uning barcha tranzaksiyalari ham o‘chadi (ON DELETE CASCADE).
+    transaction_type    → Operatsiya turi. Quyidagi qiymatlardan biri bo‘lishi kerak:
+            Deposit     → Pul qo‘shish (masalan, bankka pul kiritish)
+            Withdraw    → Pul yechish (bankdan yoki hisobdan pul chiqarish)
+            Purchase    → Xarid (mashina, qurol yoki boshqa narsalar sotib olish)
+            Sell        → Sotish (mashina yoki qurol sotish orqali pul olish)
+            CasinoBet   → Kazinoda pul tikish
+            CasinoWin   → Kazinoda yutib olingan pul
+    amount              → Summasi. Ushbu tranzaksiya orqali qancha pul sarflangani yoki olingani ko‘rsatiladi.
+    description         → Izoh. Ushbu tranzaksiya haqida qo‘shimcha ma’lumot (masalan, "T20 modelidagi mashina sotib olindi" yoki "Bankdan 5000$ yechildi").
+    created_at          → Tranzaksiya yaratilgan vaqt. Ushbu operatsiya qachon amalga oshirilgani ko‘rsatiladi.
+

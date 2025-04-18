@@ -1,0 +1,27 @@
+select
+column_name cn ,
+concat(column1 , ' ' , column2) join_column
+case
+    when condition then value
+    when condition then value
+    else value
+end as addition_column
+from table_name as tn
+where condition group by  column_name having aggregate(condition)
+order by column_name desc offset number limit number
+
+
+----------------------------------------------------------------------
+
+update table_name set column_name = new_value where condition returning column , column;
+
+----------------------------------------------------------------------
+
+
+delete from table_name where condition returning *;
+
+----------------------------------------------------------------------
+
+insert into table_name (column_name1 , column_name2 ..) values (value1 , value2 ..) returning *;
+
+

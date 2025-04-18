@@ -1,0 +1,7 @@
+
+baxolanish mezoni:
+    random savol tanlanadi:
+        savol tushuntirib bergan bitta o'quvchi uchun       : 1 ball
+        savol ni ishlaganlar uchun (vaqt belgilanadi ⏳)    : 1 ball
+
+

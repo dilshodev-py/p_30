@@ -1,0 +1,95 @@
+
+
+
+properties(O‘yinchilarning egalik qilayotgan uylar, garajlar, ofislar va kazinolar 🏠🏢🎰):
+
+    id                      → Mulkning unikal identifikatori (primary key). Har bir mulkka avtomatik ID beriladi.
+    owner_id                → Mulk egasining players jadvalidagi ID si. Ushbu mulkning qaysi o‘yinchiga tegishli ekanligini bildiradi. Agar o‘yinchi o‘chirilsa, uning mulklari ham o‘chadi (ON DELETE CASCADE).
+    type                    → Mulk turi. Quyidagi qiymatlardan biri bo‘lishi kerak:
+                house       → Uyi
+                garage      → Garaji
+                office      → Ofis binos
+                nightclub   → Kechki klub
+                casino      → Kazino
+    location                → Mulkning manzili. Qayerda joylashganligi haqida ma’lumot (masalan, "Vinewood Hills" yoki "Downtown").
+    price                   → Mulkning narxi. O‘yinchi ushbu mulkni sotib olish uchun to‘laydigan mablag‘ (USD formatida).
+    rent_income             → Passiv daromad. Agar mulk ijaraga berilsa yoki biznes uchun ishlatilsa, har hafta yoki har oy qancha daromad keltirishi ko‘rsatiladi.
+    max_capacity            → Ichiga sig‘adigan odamlar yoki transport vositalari soni.
+        Uylarda                 → Nechta odam yashashi mumkin
+        Garajlarda              → Nechta transport joylashishi mumkin
+        Ofis/Nightclub/Casino   → Nechta o‘yinchi yoki NPC (botlar) sig‘ishi mumkin
+    created_at              → Mulk ro‘yxatga olingan sana. Ushbu mulk qachon sotib olinganligi yoki qo‘shilganligini bildiradi.
+
+
+1-topshiriq:
+    Mulkni sotish
+    Tavsif:
+
+        Mulkni sotish uchun funksiya yozing.
+
+        sell_property(player_id, property_id) funksiyasini yozing. Bu funksiya player_id va property_id ni qabul qiladi.
+        Agar o‘yinchi mulkni sotmoqchi bo‘lsa, mulkning price qiymatini o‘yinchining money ustuniga qo‘shing.
+        Mulknig owner_id qiymatini NULL ga o‘zgartiring, chunki o‘yinchi mulkni sotib yuboradi.
+        Funksiya mulkni muvaffaqiyatli sotganini qaytarsin.
+
+
+
+
+
+2-topshiriq:
+
+    Jamoa a’zolari va ularga tegishli mulklar
+    Tavsif:
+
+        Jamoa a’zolarini va ularga tegishli mulklarni ko‘rsatuvchi view yaratish.
+
+        crew_properties nomli view yarating, unda quyidagi ma’lumotlar bo‘lishi kerak:
+        Jamoaning name
+        Jamoa a’zosi bo‘lgan o‘yinchining username
+        O‘yinchiga tegishli property (mulk) nomi, turi, va manzili
+
+3-topshiriq:
+    O‘yinchining jinoyat tarixini va qamoq holatini ko‘rsatish
+    Tavsif:
+
+        O‘yinchining jinoyat tarixini va qamoq holatini ko‘rsatuvchi view yaratish.
+
+        player_crime_records nomli view yarating, unda quyidagi ma’lumotlar bo‘lishi kerak:
+        O‘yinchining username
+        Jinoyat turi crime_type
+        Jinoyat vaqtini va wanted_level_increase qiymatini ko‘rsatish
+        O‘yinchining police_records jadvalidan status (qamoqda yoki ozodligi) va jail_time (qamoq vaqti) ni ko‘rsatish.
+
+
+
+TRIGGER:
+4-topshiriq:
+    Mulkni sotgan o‘yinchining pul balansini yangilash
+    Tavsif:
+
+        Agar o‘yinchi mulkni sotgan bo‘lsa, mulk narxi miqdori uning money (pul balansiga) qo‘shilsin.
+
+        Trigger yarating, bu transactions jadvalidagi Sell tranzaksiyasidan so‘ng players jadvalidagi o‘yinchining money balansini yangilasın.
+
+5-topshiriq:
+    Mulkni sotganidan so‘ng jinoyat darajasini yangilash
+    Tavsif:
+
+        Agar o‘yinchi propertyni sotgan bo‘lsa, u holda wanted_level (jinoyat darajasi)ni avtomatik ravishda 1 ga kamaytirsin.
+
+        Trigger yarating, bu transactions jadvalidagi Sell tranzaksiyasi kiritilganda, o‘yinchining wanted_level darajasi 1 ga kamaytirilsin.
+
+6-topshiriq:
+    Jail time (qamoq vaqti) tugagandan so‘ng o‘yinchini ozod qilish
+    Tavsif:
+
+        Agar police_records jadvalidagi status (holat) "Jailed" bo‘lsa va jail_time (qamoq vaqti) tugagan bo‘lsa, o‘yinchi statusni "Released" deb yangilash.
+
+        Trigger yarating, bu police_records jadvalidagi jail_time ustuni 0 bo‘lganda, statusni "Released" ga o‘zgartirsin.
+
+
+function
+
+
+create trigger name
+after

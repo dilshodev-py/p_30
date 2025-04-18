@@ -1,0 +1,78 @@
+Bank Tizimi Tuzilishi
+
+1. Abstrakt Klass: Account
+    Tavsif:
+        Bank hisoblari uchun umumiy shablon (template).
+        Har bir metodning vazifasi voris klasslarda aniqlanishi shart.
+
+Methodlar:
+    open_account()
+        Hisob ochish jarayonini boshlash.
+        Talab qilinadigan ma'lumotlarni qabul qiladi (F.I.O, boshlang‘ich balans, hisob turi).
+        Voris klasslarda turli hisob ochish shartlarini qo‘shish mumkin.
+
+    deposit(amount)
+        Hisobga pul kiritish.
+        Kiritilgan miqdorni tranzaktsiyalar ro‘yxatiga qo‘shadi.
+
+    withdraw(amount)
+        Hisobdan pul yechib olish.
+        Voris klassda balans yetarliligini tekshiradi va yechib olish shartlarini belgilaydi (masalan, kredit hisoblarida o‘rnatilgan limitlarni tekshirish).
+
+    view_balance()
+        Hozirgi balansni qaytaradi.
+
+    transaction_history()
+        Mijozning barcha tranzaktsiyalar tarixini ko‘rsatadi.
+
+2. Oddiy Hisob: SavingsAccount
+    Tavsif:
+        Oddiy jamg‘arma hisobi.
+
+    Xususiyatlari:
+        Minimal balans miqdorini ushlab turishi shart.
+        Pul yechib olishda minimal balansdan pastga tushishga ruxsat yo‘q.
+        Qo‘shimcha shartlar:
+            Minimal balansni boshqarish (masalan, 50 000 so‘mdan kam emas).
+            Har bir tranzaktsiyadan keyin balansni minimal miqdor bo‘yicha tekshirish.
+
+
+3. Kredit Hisob: CreditAccount
+    Tavsif:
+        Kredit hisoblari uchun voris klass.
+
+    Xususiyatlari:
+
+        Balans manfiy bo‘lishi mumkin.
+        Maksimal qarz limiti belgilanishi shart (masalan, -10 000 000 so‘m).
+        Qo‘shimcha shartlar:
+            Pul yechish uchun qarz limitidan oshmasligi kerak.
+            Qarzning foizini hisoblash imkoniyati bo‘lishi kerak (masalan, oyiga 3%).
+4. Ish haqi Hisob: SalaryAccount
+    Tavsif:
+        Ish haqi hisoblari uchun maxsus voris klass.
+
+
+    Xususiyatlari:
+        Barcha kiritilgan summalar avtomatik ravishda "oylik" deb belgilanishi mumkin.
+        Cheklovlarsiz tranzaktsiyalar
+
+
+
+Qisqa tushunchasi !
+1. Abstrakt Klass Yaratish
+    Account klassini yaratib, unda yuqoridagi barcha metodlarni abstrakt metod sifatida e’lon qiling.
+2. Oddiy Jamg‘arma Hisobi
+    SavingsAccount klassini yaratib, quyidagi vazifalarni bajaring:
+    Hisob ochishda minimal balans shartini qo‘shing.
+    Pul yechib olishda balansni tekshiring.
+3. Kredit Hisobi
+    CreditAccount klassida quyidagilarni bajaring:
+    Pul yechish uchun maksimal qarz limitini belgilash.
+    Har oy foizlarni hisoblash metodini qo‘shing.
+4. Hisobotni Integratsiya qilish
+    Har bir tranzaktsiyani (deposit/withdraw) tranzaktsiya tarixiga qo‘shadigan metod yarating.
+5. Hisobot Chiqish
+    Tranzaktsiyalar tarixini yig‘ib, foydalanuvchiga chiqaradigan hisobot funksiyasini qo‘shing.
+6. Foydalanuvchi uchun Moslashuvchan Interfeys
+    Mijozni bank hisobiga oid barcha xizmatlardan foydalana oladigan oddiy interfeysni taqdim eting (masalan, hisob ochish va tranzaktsiyalarni boshqarish).

@@ -1,0 +1,52 @@
+
+
+
+players(O‘yinchilar haqida asosiy ma’lumotlarni saqlaydi):
+
+    id              → O‘yinchining unikal identifikatori (primary key). Har bir o‘yinchiga avtomatik tarzda unikal ID beriladi.
+    username        → O‘yinchi nomi. Bu o‘yin ichidagi login bo‘lib, u takrorlanmas (unique) bo‘lishi kerak.
+    email           → O‘yinchi elektron pochta manzili. Bu ham takrorlanmas (unique) bo‘lib, parolni tiklash yoki tasdiqlash uchun ishlatiladi.
+    password_hash   → O‘yinchi parolining xavfsiz saqlanishi uchun hashlangan versiyasi.
+    level           → O‘yinchining hozirgi darajasi (level). Yangi o‘yinchi 1-darajada boshlaydi va XP orqali o‘sadi.
+    xp              → O‘yinchining tajriba ballari (experience points). Ma’lum miqdordagi XP yig‘ilganda darajasi oshadi.
+    money           → O‘yinchining qo‘lidagi naqd puli. O‘yin ichida xarid qilish yoki harajatlar uchun ishlatiladi.
+    bank_balance    → O‘yinchining bankdagi puli. Bu pullar o‘yin ichidagi bank xizmatlari orqali boshqariladi va garov yoki boshqa operatsiyalar uchun ishlatilishi mumkin.
+    wanted_level    → Jinoyatchilik darajasi (politsiya yulduzlari). 0 → aybsiz, 5 → eng ko‘p qidiruvdagi jinoyatchi.
+    crew_id         → O‘yinchi a’zo bo‘lgan jamoaning (crew) ID si. Agar jamoa tarqalib ketsa yoki o‘yinchi chiqib ketsa, bu NULL bo‘ladi.
+    last_login      → O‘yinchi oxirgi marta tizimga kirgan vaqti. Bu oxirgi onlayn statusni kuzatish uchun kerak bo‘ladi.
+    created_at      → Profil yaratish vaqti. O‘yinchi qachon ro‘yxatdan o‘tganligini ko‘rsatadi.
+
+
+1-topshiriq:
+     O‘yinchi balansini yangilash
+    Tavsif:
+
+        Sizga o‘yinchi balansini yangilash funktsiyasini yaratish topshirildi. Funksiya o‘yinchining bank balance va money qiymatlarini yangilashi kerak.
+        update_balance(player_id, amount) funksiyasini yozing. Bu funksiya player_id va amount (yangilanish miqdori) ni qabul qiladi.
+        Agar amount ijobiy bo‘lsa, bu o‘yinchining money ustuniga qo‘shiladi va bank_balance ustuniga ham qo‘shiladi.
+        Agar amount manfiy bo‘lsa, o‘yinchining money ustunidan kamaytiriladi va bank_balance ustunidan ham kamaytiriladi.
+        Funksiya o‘yinchi mavjud bo‘lsa, ularning balansini yangilab qaytarsin. Agar o‘yinchi topilmasa, xatolik yuborsin.
+
+
+2-topshiriq:
+    O‘yinchilar va ularning balanslarini ko‘rsatish
+    Tavsif:
+
+        Sizga o‘yinchilar va ularning balanslarini ko‘rsatuvchi view yaratish topshirildi.
+
+        player_balances nomli view ni yarating, unda quyidagi ma’lumotlar bo‘lishi kerak:
+        O‘yinchining username
+        O‘yinchining money (pul balansini) va bank_balance (bank balansini)
+        O‘yinchining total_balance (umumiy balans: money + bank_balance)
+
+
+
+TRIGGER:
+
+3-topshiriq:
+    O‘yinchi balansining o‘zgarishini tekshirish
+    Tavsif:
+
+        O‘yinchining money (pul balansi) yoki bank_balance (bank balansi) o‘zgarganida, agar money (pul) miqdori 10000 ga teng yoki undan yuqori bo‘lsa, bonus sifatida 5000 pul qo‘shilsin.
+
+        Trigger yarating, bu players jadvalidagi money yoki bank_balance ustunida o‘zgarish yuz berganda ishlasın.

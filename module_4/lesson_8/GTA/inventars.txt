@@ -1,0 +1,17 @@
+
+
+inventars(O‘yinchining buyumlari, qurollari va resurslarini saqlaydi.)
+
+    id              → Inventar unikal identifikatori (primary key). Har bir buyumga avtomatik ID beriladi.
+    player_id       → O‘yinchining players jadvalidagi ID si. Ushbu buyum qaysi o‘yinchiga tegishli ekanligini bildiradi. Agar o‘yinchi o‘chirilsa, uning barcha buyumlari ham o‘chadi (ON DELETE CASCADE).
+    item_type       → Buyum turi. Quyidagi qiymatlardan biri bo‘lishi kerak:
+        Weapon      → Qurol (masalan, "AK-47", "Sniper Rifle")
+        Armor       → Himoya kiyimi (masalan, "Heavy Armor", "Kevlar Vest")
+        Clothes     → Kiyim-kechak (masalan, "Black Hoodie", "Leather Jacket")
+        Consumable  → Sarflanadigan buyumlar (masalan, "Medkit", "Energy Drink")
+
+    item_name       → Buyum nomi. O‘yinchi o‘z inventarida qaysi buyumga ega ekanligini bildiradi.
+    quantity        → Buyum soni. O‘yinchida shu buyumdan necha dona borligini bildiradi.
+    durability      → Eskirish darajasi (0 → Butunlay yaroqsiz, 100 → Ideal holat). Asosan qurollar yoki zirhlar uchun ishlatiladi.
+    created_at      → Buyum inventarga qo‘shilgan sana. Ushbu buyum qachon sotib olingan yoki o‘yinchi tomonidan qo‘shilganligini bildiradi.
+

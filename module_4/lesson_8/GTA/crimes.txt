@@ -1,0 +1,124 @@
+
+
+crimes(O‘yinchi tomonidan sodir etilgan jinoyatlar ro‘yxati.🚔🔫🏃‍♂️):
+    id                      → Jinoyat unikal identifikatori (primary key). Har bir jinoyatga avtomatik ID beriladi.
+    player_id               → O‘yinchining players jadvalidagi ID si. Ushbu jinoyat qaysi o‘yinchi tomonidan sodir etilganini bildiradi. Agar o‘yinchi o‘chirilsa, uning barcha jinoyatlari ham o‘chadi (ON DELETE CASCADE).
+    crime_type              → Jinoyat turi. Quyidagi qiymatlardan biri bo‘lishi kerak:
+            Robbery         → O‘g‘irlik (do‘kon yoki bankdan pul o‘g‘irlash)
+            Murder          → Qotillik (NPC yoki boshqa o‘yinchini o‘ldirish)
+            Car Theft       → Avtomobil o‘g‘irlash
+            Drug Deal       → Narkotik savdosi
+    wanted_level_increase   → Jinoyatdan keyin yulduz darajasi ortishi (1 → Eng yengil, 5 → Eng og‘ir). Jinoyat qanchalik og‘ir bo‘lsa, politsiya qidiruvi shunchalik kuchayadi.
+    police_response         → Politsiya javobi. Quyidagi qiymatlardan biri bo‘lishi mumkin:
+            Chase           → Oddiy politsiya ta’qibi
+            SWAT            → Og‘ir qurollangan SWAT bo‘limi chaqiriladi
+            FBI             → Eng og‘ir jinoyatlar uchun FBI aralashadi
+    crime_location          → Jinoyat joyi. Jinoyat sodir etilgan joy (masalan, "Los Santos Bank", "Downtown Street").
+    crime_time              → Jinoyat sodir bo‘lgan vaqt. Ushbu jinoyat qachon amalga oshirilgani ko‘rsatiladi (default CURRENT_TIMESTAMP).
+
+
+
+1-topshiriq:
+    Jinoyatni ro‘yxatdan o‘tkazish
+    Tavsif:
+
+        Jinoyatlarni ro‘yxatdan o‘tkazish funksiyasini yaratish.
+
+            log_crime(player_id, crime_type, wanted_level_increase) funksiyasini yozing. Bu funksiya player_id,
+            crime_type, va wanted_level_increase ni qabul qiladi.
+            crime_type (masalan, "Robbery", "Murder") asosida jinoyat turini crimes jadvaliga qo‘shadi.
+            Jinoyat turiga qarab, o‘yinchining wanted_level qiymatini yangilaydi. Agar jinoyat Hard bo‘lsa,
+            wanted_level 3 ga oshadi, Medium bo‘lsa 2 ga oshadi, Easy bo‘lsa 1 ga oshadi.
+            Funksiya jinoyat ro‘yxatini to‘ldirib, jinoyat vaqtini va o‘yinchi bilan bog‘liq bo‘lgan barcha kerakli ma’lumotlarni qaytarsin.
+
+
+2-topshiriq:
+    O‘yinchining jinoyat tarixini olish
+    Tavsif:
+
+        O‘yinchining jinoyat tarixini olish funktsiyasini yaratish.
+
+        get_player_crimes(player_id) funksiyasini yozing. Bu funksiya player_id ni qabul qiladi va o‘yinchining barcha jinoyatlarini qaytaradi.
+        Funksiya crimes jadvalidan o‘yinchiga tegishli jinoyatlarni olish va ular bo‘yicha ma’lumotlarni qaytarish kerak.
+        Funksiya barcha jinoyatlar, jinoyat turi, politsiya javobi, va jinoyat vaqtini ko‘rsatishi kerak
+
+
+3-topshiriq:
+    Jinoyatlarni va ularning darajalarini ko‘rsatish
+    Tavsif:
+
+        Jinoyatlar bo‘yicha view yaratish.
+
+        crime_summary nomli view yarating, unda quyidagi ma’lumotlar bo‘lsin:
+        O‘yinchining username
+        Jinoyat turi crime_type
+        O‘yinchining wanted_level (jinoyat darajasi) va jinoyat uchun wanted_level_increase
+        Jinoyat joyi crime_location
+
+
+4-topshiriq:
+    O‘yinchilar va jinoyatlariga oid ko‘rsatkichlar
+    Tavsif:
+
+        O‘yinchilarni va ularning jinoyatlarini ko‘rsatish.
+
+        player_crime_status nomli view yarating, unda quyidagi ma’lumotlar bo‘lishi kerak:
+        O‘yinchining username
+        Jinoyat turini crime_type
+        Jinoyat darajasi bo‘yicha wanted_level_increase
+        Politsiya reaksiyasi bo‘yicha police_response
+
+TRIGGER:
+5-topshiriq:
+    Jinoyat darajasining avtomatik yangilanishi
+    Tavsif:
+
+        Jinoyat amalga oshirilganda, o‘yinchining wanted_level (jinoyat darajasi) avtomatik ravishda increase (ortib) borishi kerak.
+
+        Trigger yarating, bu crimes jadvalidagi har bir yangi jinoyat yozuvi kiritilganda playerning wanted_level (jinoyat darajasi) ga wanted_level_increase qiymatini qo‘shsin.
+
+
+6-topshiriq:
+    O‘yinchi jinoyat darajasi ortganda politsiya javobini yangilash
+    Tavsif:
+
+        Agar o‘yinchining wanted_level (jinoyat darajasi) oshsa (masalan, 2 dan 3 ga o‘tsa), police_response (politsiya reaktsiyasi) avtomatik ravishda "SWAT" ga o‘zgartirilsin.
+
+        Trigger yarating, bu players jadvalidagi wanted_level o‘zgarishida, agar yangi qiymat 3 yoki undan yuqori bo‘lsa, police_response ustunini "SWAT" ga yangilasın.
+
+
+       CREATE OR REPLACE FUNCTION product_count_category_trigger()
+
+
+
+
+
+if new.wanted_level <> old.wanted_level then
+    if new.wanted_level >= 3 then
+        update crimes set police_response = 'SWAT' where player_id = crimes.player_id
+
+
+RETURNS TRIGGER
+LANGUAGE plpgsql
+AS
+$$
+BEGIN
+    IF old.wanted_level <> new.wanted_level THEN
+        if  old.wanted_level < new.wanted_level
+        UPDATE categories
+        SET product_count = product_count + 1
+        WHERE id = NEW.cat_id;  -- category_id o‘rniga cat_id
+        RETURN NEW;
+    ELSIF TG_OP = 'DELETE' THEN
+        UPDATE categories
+        SET product_count = product_count - 1
+        WHERE id = OLD.cat_id;  -- category_id o‘rniga cat_id
+        RETURN OLD;
+    END IF;
+END;
+$$;
+
+CREATE TRIGGER product_insert_trigger
+AFTER update ON products
+FOR EACH ROW
+EXECUTE FUNCTION product_count_category_trigger();

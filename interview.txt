@@ -1,0 +1,60 @@
+data type:
+    int
+    str
+    float
+    bool
+    list
+    dict
+    NoneType
+    set
+    tuple
+    complex
+
+str(immutable,hashable,index,length,char,+=,copy(=)) - list(mutable,unhashable,index,length,item,+=, methods,copy())
+set(no ordering , no index, no save unhashable, compare , unique) - tuple(ordering , index,fast , immutable, memory)
+
+l = [item1]
+l+=[item2]
+
+a = 1
+b = 1
+c = 1
+a = b = c = 1
+
+
+function(*args , **kwargs)
+function(name=None , age)
+function(a , * , b)
+function(a , / , b)
+
+class
+object
+
+inheritance
+polymorphism
+encapsulation   ->   Library
+abstraction
+
+scope -> global , local
+
+stack -> FILO    fast
+queue -> FIFO    fast
+
+collection   fast
+itertools    fast , memory , generator
+
+iterable , generator - differance(memory , )
+
+iterator - generator
+
+threads(IO) - processes
+
+async(many session)
+
+async def
+
+
+
+
+
+

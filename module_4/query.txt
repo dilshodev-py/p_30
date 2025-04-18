@@ -1,0 +1,46 @@
+-- select count(*)  from actor where first_name = 'Ed';
+
+-- select * from actor order by length(first_name) desc ;
+
+-- select * from actor where first_name ilike '%bo%';
+
+
+-- select * from actor where actor_id between 10 and 20;
+
+
+-- select * from actor order by last_update offset 10*(5-1) limit 10;
+
+
+-- select * from actor where actor_id in (1,80 , 100);
+
+
+select first_name as name from actor;
+
+-- select concat(first_name, ' ' , last_name) fullname from actor order by fullname;
+
+
+-- select distinct first_name , last_name from actor;
+-- select count(first_name) from actor;
+
+
+-- aggregate :
+--     min
+--     max
+--     count
+--     sum
+--     avg
+
+-- SELECT concat(first_name ,' ', last_name) as fullname, count(concat(first_name ,' ', last_name)) from actor group by fullname having count(concat(first_name ,' ', last_name))>1;
+
+-- create table nums(
+--     num1 integer,
+--     num2 integer
+-- );
+
+-- select num1 , max(num2) from nums group by num1 having max(num2) > 5 order by num1;
+
+-- 1 | 2
+-- 2 | 3
+
+
+

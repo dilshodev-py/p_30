@@ -1,0 +1,282 @@
+-- create table categories(
+--     id serial primary key ,
+--     name varchar,
+--     product_count integer
+-- );
+--
+--
+-- create table products(
+--     id serial primary key ,
+--     name varchar,
+--     price decimal(10 ,0),
+--     category_id int references categories(id)
+-- );
+--
+-- insert into categories(name , product_count)
+-- values ('Texnika' , 0);
+--
+-- insert into products(name , price , category_id)
+-- values ('Soat' , 1000 , 1);
+--
+-- create or replace function increment_category_product_count_function()
+-- returns trigger
+-- language plpgsql
+-- as $$
+--     begin
+--         update categories set product_count = product_count + 1 where id = NEW.category_id;
+--         return NEW;
+--     end;
+--     $$;
+--
+-- drop function increment_category_product_count_function();
+-- drop trigger increment_category_product_count_trigger on products;
+-- create or replace trigger increment_category_product_count_trigger
+-- after insert on products
+-- for each row execute procedure increment_category_product_count_function();
+
+
+
+-- CREATE TRIGGER trigger_name
+--    {BEFORE | AFTER} { event }
+--    ON table_name
+--    [FOR [EACH] { ROW | STATEMENT }]
+--        EXECUTE PROCEDURE trigger_function
+
+
+-- --------------------- TOPSHIRIQ -----------------------------------
+-- category jadvalida malumot o'chirilganda category_log
+-- nomli jadval ga hamma ustunlari va o'chirilgan vaqt salab qo'yilsin
+-- -------------------------------------------------------------------
+
+
+-- create table category_log(
+--     category_id integer ,
+--     name varchar,
+--     product_count integer,
+--     deleted_at timestamp default current_timestamp
+-- );
+--
+-- create or replace function category_delete_log()
+-- returns trigger
+-- language plpgsql
+-- as $$
+--     begin
+--         insert into category_log (category_id, name, product_count)
+--         values (old.id , old.name , old.product_count);
+--         return old;
+--     end;
+--     $$;
+--
+-- create trigger category_delete_log_trigger
+-- after delete on categories
+-- for each row execute procedure category_delete_log();
+
+
+-- --------------------- TOPSHIRIQ -----------------------------------
+-- products jadvalida malumotlar o'zgartirilsa product_change_log nomli table ga
+-- saqlab qo'yilsin !
+
+-- product_change_log:
+--     product_id
+--     column_name
+--     old_value
+--     new_value
+-- --     updated_at
+-- create table product_change_log(
+--     product_id integer,
+--     column_name varchar,
+--     old_value varchar,
+--     new_value varchar,
+--     updated_at timestamp default current_timestamp
+-- );
+--
+--
+--
+-- create or replace function product_change_log_function()
+-- returns trigger
+-- language plpgsql
+-- as $$
+--     begin
+--         if old.name != new.name then
+--                 insert into product_change_log(product_id, column_name, old_value, new_value)
+--                 values (old.id , 'name' , old.name , new.name);
+--
+--         end if;
+--         if old.price != new.price then
+--                 insert into product_change_log(product_id, column_name, old_value, new_value)
+--                 values (old.id , 'price' , old.price::varchar , new.price::varchar);
+--         end if;
+--         if old.category_id != new.category_id then
+--                 insert into product_change_log(product_id, column_name, old_value, new_value)
+--                 values (old.id , 'category_id' , old.category_id::varchar , new.category_id::varchar);
+--         end if;
+--         return new;
+--     end;
+--     $$;
+--
+-- create or replace trigger product_change_log_trigger
+-- before update on products
+-- for each row execute procedure product_change_log_function();
+
+
+
+
+-----------------------------------------------------
+
+
+-- create table categories(
+--     id serial primary key ,
+--     name varchar,
+--     product_count integer
+-- );
+--
+--
+-- create table products(
+--     id serial primary key ,
+--     name varchar,
+--     price decimal(10 ,0),
+--     category_id int references categories(id)
+-- );
+--
+-- insert into categories(name , product_count)
+-- values ('Texnika' , 0);
+--
+-- insert into products(name , price , category_id)
+-- values ('Soat' , 1000 , 1);
+--
+-- create or replace function increment_category_product_count_function()
+-- returns trigger
+-- language plpgsql
+-- as $$
+--     begin
+--         update categories set product_count = product_count + 1 where id = NEW.category_id;
+--         return NEW;
+--     end;
+--     $$;
+--
+-- drop function increment_category_product_count_function();
+-- drop trigger increment_category_product_count_trigger on products;
+-- create or replace trigger increment_category_product_count_trigger
+-- after insert on products
+-- for each row execute procedure increment_category_product_count_function();
+
+
+
+-- CREATE TRIGGER trigger_name
+--    {BEFORE | AFTER} { event }
+--    ON table_name
+--    [FOR [EACH] { ROW | STATEMENT }]
+--        EXECUTE PROCEDURE trigger_function
+
+
+-- --------------------- TOPSHIRIQ -----------------------------------
+-- category jadvalida malumot o'chirilganda category_log
+-- nomli jadval ga hamma ustunlari va o'chirilgan vaqt salab qo'yilsin
+-- -------------------------------------------------------------------
+
+
+-- create table category_log(
+--     category_id integer ,
+--     name varchar,
+--     product_count integer,
+--     deleted_at timestamp default current_timestamp
+-- );
+--
+-- create or replace function category_delete_log()
+-- returns trigger
+-- language plpgsql
+-- as $$
+--     begin
+--         insert into category_log (category_id, name, product_count)
+--         values (old.id , old.name , old.product_count);
+--         return old;
+--     end;
+--     $$;
+--
+-- create trigger category_delete_log_trigger
+-- after delete on categories
+-- for each row execute procedure category_delete_log();
+
+
+-- --------------------- TOPSHIRIQ -----------------------------------
+-- products jadvalida malumotlar o'zgartirilsa product_change_log nomli table ga
+-- saqlab qo'yilsin !
+
+-- product_change_log:
+--     product_id
+--     column_name
+--     old_value
+--     new_value
+-- --     updated_at
+-- create table product_change_log(
+--     product_id integer,
+--     column_name varchar,
+--     old_value varchar,
+--     new_value varchar,
+--     updated_at timestamp default current_timestamp
+-- );
+--
+--
+--
+-- create or replace function product_change_log_function()
+-- returns trigger
+-- language plpgsql
+-- as $$
+--     begin
+--         if old.name != new.name then
+--                 insert into product_change_log(product_id, column_name, old_value, new_value)
+--                 values (old.id , 'name' , old.name , new.name);
+--
+--         end if;
+--         if old.price != new.price then
+--                 insert into product_change_log(product_id, column_name, old_value, new_value)
+--                 values (old.id , 'price' , old.price::varchar , new.price::varchar);
+--         end if;
+--         if old.category_id != new.category_id then
+--                 insert into product_change_log(product_id, column_name, old_value, new_value)
+--                 values (old.id , 'category_id' , old.category_id::varchar , new.category_id::varchar);
+--         end if;
+--         return new;
+--     end;
+--     $$;
+-- --
+-- create or replace trigger product_change_log_trigger
+-- before update or insert on products
+-- for each row execute procedure product_change_log_function();
+
+
+-- -----------------------------------------------------
+
+
+
+create or replace function member_count_increment()
+returns trigger
+language plpgsql
+as $$
+
+    begin
+        if new.crew_id is not null then
+            update crews set members_count = members_count + 1 where id = new.crew_id;
+        end if;
+        if new.crew_id is not null and old.crew_id is not null then
+            update crews set members_count = members_count - 1 where id = old.crew_id;
+        end if;
+
+        return new;
+    end;
+    $$;
+
+
+create or replace trigger crew_member_count_increment_trigger
+after insert or update on players_crews
+for each row execute procedure member_count_increment();
+
+
+
+
+
+
+
+
+
+

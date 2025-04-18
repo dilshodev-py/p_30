@@ -1,0 +1,75 @@
+1-step:
+    qanaqa classlar yaratishni aniqlab olamiz !
+
+    User:
+        id
+        first_name
+        email
+        password
+
+    Category:
+        id
+        name
+
+    Book:
+        id
+        title
+        description
+        price
+        image
+        author
+        quantity
+        category : Category
+
+    Order(Savat):
+        id
+        book
+        user
+        cost
+        count
+        status [NEW , COMPLETED]
+        ordered_at
+
+2-step methodlarni anilash:
+    User:
+        is_valid
+        is_login
+        save
+        change_password
+        about
+
+    Category:
+        pass
+
+    Book:
+        books_by_category
+        is_available
+        search
+
+    Order:
+        save()
+        checkout()
+        clear_order()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

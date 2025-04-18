@@ -1,0 +1,21 @@
+
+
+crews(Bu jadval jamoalar va ularning a'zolari haqida ma’lumot saqlash uchun mo‘ljallangan. 💼🕴)
+
+    id              → Jamoa unikal identifikatori (primary key). Har bir jamoa uchun avtomatik ID beriladi.
+    name            → Jamoa nomi. Jamoaning unikal nomi (masalan, "Los Santos Mafia"). NOT NULL chekloviga ega bo‘lib, bu ustun bo‘sh qoldirilishi mumkin emas.
+    leader_id       → Jamoa rahbari o‘yinchisi. Jamoaning rahbari bo‘lgan o‘yinchining ID si, bu players jadvalidan olinadi. Agar rahbar o‘yinchi o‘chirilsa, jamoa ham o‘chiriladi (ON DELETE CASCADE).
+    members_count   → Jamoa a'zolari soni. Jamoa a'zolari soni, boshlang‘ichda 1 ga teng. Agar o‘yinchi qo‘shilsa yoki chiqsa, bu qiymat yangilanadi.
+    created_at      → Jamoa yaratilgan vaqt. Jamoaning yaratish sanasi va vaqti, default CURRENT_TIMESTAMP qiymatiga ega.
+
+
+
+TRIGGER:
+    Jamoa a’zolarining yangi a’zo qo‘shganda avtomatik yangilanishi
+    Tavsif:
+
+        Agar crews jadvaliga yangi o‘yinchi qo‘shilsa, uning members_count (a’zolar soni) avtomatik ravishda oshsin.
+
+        Trigger yarating, bu crews jadvalidagi har bir yangi player qo‘shilganda, members_count ustunini 1 ga oshirsin.
+
+

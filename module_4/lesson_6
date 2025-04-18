@@ -1,0 +1,14 @@
+join:
+    left
+    right
+    full
+    cross
+
+
+a
+    id
+
+b
+    id
+    amount
+    a_id

@@ -1,0 +1,95 @@
+                                        AUTH TZ (Tехник Задача)
+-------------------------------------------------------------------
+
+Asosiy bloklar va funksiyalar:
+    Auth (Asosiy autentifikatsiya moduli)
+    Tavsif: Tizimga kirish yoki ro‘yxatdan o‘tish uchun foydalanuvchidan tanlov olish.
+
+    Funksiyalar:
+        Register (Ro‘yxatdan o‘tish): Yangi foydalanuvchini tizimga qo‘shish.
+        Login (Kirish): Foydalanuvchining tizimga kirish imkoniyatini yaratish.
+        Exit (Chiqish): Tizimdan chiqish va asosiy menyuga qaytish.
+
+-------------------------------------------------------------------
+
+Register (Yangi foydalanuvchini ro‘yxatdan o‘tkazish):
+    Tavsif: Foydalanuvchidan ma'lumotlar olish va uni tizimga kiritish.
+
+    Funksiyalar:
+        Ism, email, va parolni so‘rash.
+        Ma'lumotlar asosida yangi foydalanuvchini yaratish.
+        Foydalanuvchiga ro‘yxatdan o‘tganligi haqida xabar berish.
+-------------------------------------------------------------------
+
+Login (Foydalanuvchi hisobiga kirish)
+    Tavsif: Foydalanuvchidan tizimga kirish uchun email va parolni so‘rash.
+    Funksiyalar:
+        Email va parolni autentifikatsiya qilish.
+        Kirish muvaffaqiyatli bo‘lsa, foydalanuvchiga tizimga kirganligi haqida xabar berish.
+        Agar autentifikatsiya muvaffaqiyatsiz bo‘lsa, xatolik haqida xabar berish.
+
+-------------------------------------------------------------------
+
+Profile (Shaxsiy profilga oid ma'lumotlar)
+    Tavsif: Kirgan foydalanuvchining profil ma'lumotlarini ko‘rish va tahrirlash.
+    Funksiyalar:
+        Foydalanuvchining ismi, emaili va boshqa shaxsiy ma'lumotlarini ko‘rsatish.
+        Foydalanuvchiga ma'lumotlarni tahrirlash imkoniyatini berish.
+
+-------------------------------------------------------------------
+
+Profil o‘zgartirish imkoniyati.
+Settings (Hisob sozlamalari)
+Tavsif: Foydalanuvchining hisobini boshqarish va sozlamalarni o‘zgartirish.
+
+    Funksiyalar:
+        Parolni yangilash.
+        Tilni o‘zgartirish (masalan, tildan foydalanish).
+-------------------------------------------------------------------
+
+
+Exit (Tizimdan chiqish)
+    Tavsif: Foydalanuvchi tizimdan chiqish va dasturdan chiqish imkoniyatiga ega bo‘ladi.
+
+    Funksiyalar:
+        Tizimdan chiqishdan oldin foydalanuvchidan tasdiqlash talab qilinishi mumkin.
+        Dasturdan chiqish va foydalanuvchini tizimdan chiqarish.
+
+
+--------------------------- UI (User Interface) ----------------------------------------
+
+UI (Konsol Interfeysi) Dizayni:
+Asosiy Menyu (Main Menu)
+    Menyu tarkibi:
+        Register: Yangi foydalanuvchini ro‘yxatdan o‘tkazish.
+        Login: Hisobga kirish.
+        Exit: Dasturdan chiqish.
+        Navigatsiya: Foydalanuvchi 1, 2 yoki 3 ni tanlaydi.
+
+
+Register Sahifasi
+    Foydalanuvchidan ism, email va parol kiritish talab qilinadi.
+    Foydalanuvchi o‘zining ma'lumotlarini kiritganidan so‘ng, ro‘yxatdan o‘tganligi haqida xabar beriladi.
+    Ro‘yxatni muvaffaqiyatli tugatgandan so‘ng, foydalanuvchi tizimga kirish uchun Login sahifasiga yo‘naltiriladi.
+
+
+Login Sahifasi
+    Foydalanuvchi email va parolni kiritadi.
+    Agar autentifikatsiya muvaffaqiyatli bo‘lsa, tizimga kirish amalga oshiriladi.
+    Agar xatolik bo‘lsa, foydalanuvchi xatolik haqida xabardor qilinadi.
+
+
+Profile Sahifasi
+    Foydalanuvchi o‘zining ma'lumotlarini ko‘rishi va tahrirlashi mumkin.
+    Tahrir qilish uchun maxsus komandalar (misol: "Edit" yoki "Change") taqdim etiladi.
+
+
+Settings Sahifasi
+    Foydalanuvchi o‘z hisobini boshqarish uchun quyidagi sozlamalarni o‘zgartirishi mumkin:
+    Parolni o‘zgartirish.
+    Hisob sozlamalarini (notifkatsiyalar, til, va boshqalar) yangilash.
+
+
+Exit Sahifasi
+    Foydalanuvchi tizimdan chiqishni tasdiqlash uchun "Are you sure you want to exit?" kabi so‘rov oladi.
+    Tasdiqlashdan so‘ng, dasturdan chiqiladi.

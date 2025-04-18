@@ -1,0 +1,82 @@
+Tizimda mahsulot yetkazib berish uchun asosiy abstrakt klass mavjud bo‘ladi (Delivery).
+Turli yetkazib berish turlari uchun voris klasslar yaratiladi (masalan, kuryer, pochta, va ekspress xizmatlar).
+Abstrakt metodlar orqali buyurtma boshqarish va yetkazib berish usullari ta'minlanadi:
+    create_order() - yangi buyurtma yaratish.
+    calculate_cost() - yetkazib berish narxini hisoblash.
+    track_order() - buyurtma holatini kuzatish.
+    delivery_status() - yetkazib berish holatini ko‘rsatish.
+
+
+1. Abstrakt Klass: Delivery
+Tavsif:
+    Har qanday yetkazib berish xizmatlari uchun umumiy shablon. Unda yetkazib berishning asosiy qoidalari belgilab beriladi.
+
+    Methodlar:
+
+        create_order(customer, address, items)
+            Yangi buyurtma yaratadi. Mijoz haqida ma'lumot va yetkazib berish manzilini qabul qiladi.
+            Har bir buyurtma maxsus ID raqam bilan saqlanadi.
+
+        calculate_cost()
+            Yetkazib berish narxini aniqlaydi. Turli usullar uchun narx hisoblash qoidalari voris klasslarda aniqlanadi (masalan, masofa, og‘irlik yoki tezlikka qarab).
+            track_order(order_id)
+
+        delivery_status(order_id)
+            Buyurtmaning hozirgi holatini qaytaradi (masalan: "qabul qilindi", "jo‘natildi", "yetkazildi").
+
+2. Kuryer Yetkazib Berish: CourierDelivery
+Tavsif:
+    Mahsulotlarni kuryer orqali mahalliy joylarga yetkazib berish xizmati.
+
+    Xususiyatlari:
+        Yetkazish narxi masofa (km) va mahsulot og‘irligiga qarab hisoblanadi.
+        Faqat bir kunlik yetkazib berish uchun mo‘ljallangan.
+
+    Qo‘shimcha shartlar:
+        Maksimal masofa: 20 km.
+        Maksimal og‘irlik: 10 kg.
+
+3. Pochta Yetkazib Berish: PostalDelivery
+Tavsif:
+    Mahsulotlarni davlat pochta xizmati orqali yetkazib berish.
+
+    Xususiyatlari:
+        Narx hisoblash mahsulotning hajmi va vazniga qarab amalga oshiriladi.
+        Yetkazish muddati: 5-7 kun.
+
+    Qo‘shimcha shartlar:
+        Har bir buyurtma uchun pochta kodi belgilanishi kerak.
+
+4. Ekspress Yetkazib Berish: ExpressDelivery
+    Tavsif:
+        Tezkor yetkazib berish xizmati, shoshilinch buyurtmalar uchun.
+
+    Xususiyatlari:
+        Narx hisoblash vaqtga (soat) va mahsulotning og‘irligiga qarab amalga oshiriladi.
+        Yetkazish muddati: 1-3 soat.
+
+Qo‘shimcha shartlar:
+    Narx oddiy yetkazib berish narxidan 2 barobar qimmat bo‘ladi.
+    Maksimal mahsulot og‘irligi: 5 kg.
+
+
+5. Hisobot Moduli
+    Buyurtma ID orqali buyurtmaning barcha ma'lumotlarini (mijoz ismi, manzil, narx va holat) ko‘rsatadi.
+    Tizim barcha buyurtmalar ro‘yxatini chiqarish imkoniyatiga ega.
+    Topshiriqlar
+        1. Abstrakt Klass Yaratish
+        Delivery klassini yarating va unda asosiy abstrakt metodlarni (create_order, calculate_cost, track_order, delivery_status) aniqlang.
+        2. Yetkazib Berish Turlarini Qo‘shish
+        CourierDelivery, PostalDelivery, va ExpressDelivery klasslarini yarating.
+        Har bir klassda calculate_cost metodini o‘ziga xos shartlar bilan implementatsiya qiling.
+        3. Buyurtma Holatini Kuzatish
+        Har bir buyurtma ID orqali kuzatish imkoniyatini yarating:
+        Masalan, track_order(order_id) metodini yetkazib berish bosqichlarini qaytaradigan qilib tuzing.
+        4. Yetkazib Berish Narxini Hisoblash
+        Har bir usul uchun alohida narx hisoblash qoidalarini yozing:
+        Masofa bo‘yicha (CourierDelivery).
+        Hajm va vazn bo‘yicha (PostalDelivery).
+        Vaqt bo‘yicha (ExpressDelivery).
+        5. Yetkazib Berish Hisoboti
+        Buyurtmalar ro‘yxatini qaytaradigan metod qo‘shing:
+        Har bir buyurtmaning narxi, mahsulotlari va hozirgi holati ko‘rsatiladi.

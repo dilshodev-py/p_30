@@ -1,0 +1,212 @@
+
+
+create type wanted_level_type as enum ('0' , '1' , '2' , '3' , '4' , '5');
+CREATE TABLE players(
+    "id" serial primary key ,
+    "username" VARCHAR(255) NOT NULL unique ,
+    "email" VARCHAR(255) NOT NULL unique ,
+    "password_hash" VARCHAR(255) NOT NULL,
+    "level" INTEGER NOT NULL DEFAULT '1',
+    "xp" INTEGER NOT NULL,
+    "money" DECIMAL(12, 2) NOT NULL DEFAULT 20,
+    "bank_balance" DECIMAL(12, 2) NOT NULL,
+    "wanted_level" wanted_level_type,
+    "last_login" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+CREATE TABLE "crews"(
+    "id" serial primary key ,
+    "name" VARCHAR(255) NOT NULL unique ,
+    "members_count" SMALLINT NOT NULL DEFAULT '1',
+    "created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+create type crime_type as enum ('robbery','murder','car theft','drug deal');
+create type wanted_level_increase_type as enum ('1', '2', '3', '4', '5');
+create type police_response as enum ('chase', 'swat', 'fbi');
+
+CREATE TABLE "crimes"(
+    "id" serial primary key ,
+    "player_id" INTEGER references players(id) on delete cascade ,
+    "crime_type" crime_type,
+    "wanted_level_increase" wanted_level_increase_type DEFAULT '1',
+    "police_response" police_response not null ,
+    "crime_location" VARCHAR(255) NOT NULL,
+    "crime_time" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+create type item_type as enum ('weapon','armor','clothes','consumable');
+
+CREATE TABLE "inventars"(
+    "id" serial primary key ,
+    "player_id" INTEGER references players(id) on delete cascade ,
+    "item_type" item_type NOT NULL,
+    "item_name" VARCHAR(255) NOT NULL,
+    "quantity" SMALLINT NOT NULL,
+    "durability" SMALLINT ,
+    "created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+create type mission_difficulty_type as enum ('easy', 'medium', 'hard');
+
+CREATE TABLE "missions"(
+    "id" serial primary key ,
+    "name" VARCHAR(255) NOT NULL,
+    "reward_money" DECIMAL(10, 2) NOT NULL,
+    "reward_xp" SMALLINT NOT NULL DEFAULT '0',
+    "difficulty" mission_difficulty_type NOT NULL,
+    "created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+create type police_status_type as enum ('jailed', 'released');
+CREATE TABLE "police_records"(
+    "id" serial primary key ,
+    "player_id" INTEGER references players(id) on delete cascade ,
+    "arresting_officer" VARCHAR(255) NOT NULL,
+    "jail_time" SMALLINT NOT NULL,
+    "bail_amount" DECIMAL(10, 2) NOT NULL,
+    "status" police_status_type DEFAULT 'jailed',
+    "arrest_time" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+create type properties_type as enum ('house','garage','office','nightclub','casino');
+CREATE TABLE "properties"(
+    "id" serial primary key ,
+    "owner_id" INTEGER references players(id) on delete cascade ,
+    "type" properties_type NOT NULL,
+    "location" VARCHAR(255) NOT NULL,
+    "price" DECIMAL(12, 2) NOT NULL,
+    "rent_income" BIGINT NOT NULL,
+    "max_capacity" INTEGER NOT NULL,
+    "created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+create type transaction_type as enum ('deposit','withdraw','purchase','sell','casinobet','casinowin');
+CREATE TABLE "transactions"(
+    "id" serial primary key ,
+    "player_id" INTEGER references players(id) on delete cascade ,
+    "transaction_type" transaction_type NOT NULL,
+    "amount" DECIMAL(10, 2) NOT NULL,
+    "description" TEXT ,
+    "created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE "vehicles"(
+    "id" serial primary key ,
+    "owner_id" INTEGER references players(id) on delete cascade ,
+    "model" VARCHAR(255) NOT NULL,
+    "color" VARCHAR(255) NOT NULL,
+    "plate_number" VARCHAR(6) unique NOT NULL  ,
+    "insurance" BOOLEAN NOT NULL DEFAULT '0',
+    "garage_location" VARCHAR(255) NOT NULL,
+    "health" SMALLINT NOT NULL DEFAULT 100 check ( health between 0 and 100),
+    "fuel" SMALLINT NOT NULL DEFAULT 100 check ( health between 0 and 100),
+    "tuning" jsonb ,
+    "created_at" TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE "players_crews"(
+    "leader_id" BIGINT references players(id) on delete cascade ,
+    "crew_id" BIGINT NOT NULL references crews(id) on delete cascade ,
+    "created_at" timestamp default current_timestamp
+);
+
+
+
+-- ---------------------------------------------
+
+-- Add players data
+INSERT INTO players ("username", "email", "password_hash", "level", "xp", "money", "bank_balance", "wanted_level", "last_login", "created_at")
+VALUES
+('player1', 'player1@example.com', 'password_hash_1', 1, 100, 500, 1000, '0', NOW(), NOW()),
+('player2', 'player2@example.com', 'password_hash_2', 2, 200, 1000, 1500, '1', NOW(), NOW()),
+('player3', 'player3@example.com', 'password_hash_3', 3, 300, 1500, 2000, '2', NOW(), NOW());
+
+-- Add crews data
+INSERT INTO crews ("name", "members_count", "created_at")
+VALUES
+('Crew A', 5, NOW()),
+('Crew B', 3, NOW()),
+('Crew C', 7, NOW());
+
+-- Add crimes data
+INSERT INTO crimes ("player_id", "crime_type", "wanted_level_increase", "police_response", "crime_location", "crime_time")
+VALUES
+(1, 'robbery', '2', 'chase', 'Bank', NOW()),
+(2, 'murder', '3', 'swat', 'Alley', NOW()),
+(3, 'car theft', '1', 'fbi', 'Parking Lot', NOW());
+
+-- Add inventars data
+INSERT INTO inventars ("player_id", "item_type", "item_name", "quantity", "durability", "created_at")
+VALUES
+(1, 'weapon', 'Gun', 1, 100, NOW()),
+(2, 'armor', 'Bulletproof Vest', 1, 75, NOW()),
+(3, 'clothes', 'Leather Jacket', 2, 50, NOW());
+
+-- Add missions data
+INSERT INTO missions ("name", "reward_money", "reward_xp", "difficulty", "created_at")
+VALUES
+('Mission 1', 1000.00, 100, 'easy', NOW()),
+('Mission 2', 1500.00, 200, 'medium', NOW()),
+('Mission 3', 3000.00, 400, 'hard', NOW());
+
+-- Add police records data
+INSERT INTO police_records ("player_id", "arresting_officer", "jail_time", "bail_amount", "status", "arrest_time")
+VALUES
+(1, 'Officer 1', 10, 500.00, 'jailed', NOW()),
+(2, 'Officer 2', 5, 300.00, 'released', NOW()),
+(3, 'Officer 3', 15, 1000.00, 'jailed', NOW());
+
+-- Add properties data
+INSERT INTO properties ("owner_id", "type", "location", "price", "rent_income", "max_capacity", "created_at")
+VALUES
+(1, 'house', 'Downtown', 100000.00, 2000, 4, NOW()),
+(2, 'garage', 'Suburbs', 50000.00, 1500, 2, NOW()),
+(3, 'nightclub', 'City Center', 200000.00, 5000, 10, NOW());
+
+-- Add transactions data
+INSERT INTO transactions ("player_id", "transaction_type", "amount", "description", "created_at")
+VALUES
+(1, 'deposit', 1000.00, 'Deposit into bank', NOW()),
+(2, 'withdraw', 500.00, 'Withdraw from bank', NOW()),
+(3, 'purchase', 15000.00, 'Purchased a new car', NOW());
+
+-- Add vehicles data
+INSERT INTO vehicles ("owner_id", "model", "color", "plate_number", "insurance", "garage_location", "health", "fuel", "tuning", "created_at")
+VALUES
+(1, 'Car Model 1', 'Red', 'ABC123', true, 'Downtown Garage', 80, 100, '{"spoiler": "yes", "wheels": "sport"}', NOW()),
+(2, 'Car Model 2', 'Blue', 'DEF456', false, 'Suburb Garage', 70, 90, '{"spoiler": "no", "wheels": "regular"}', NOW()),
+(3, 'Car Model 3', 'Black', 'GHI789', true, 'City Center Garage', 90, 80, '{"spoiler": "yes", "wheels": "luxury"}', NOW());
+
+-- Add players_crews data
+INSERT INTO players_crews ("leader_id", "crew_id", "created_at")
+VALUES
+(1, 1, NOW()),
+(2, 2, NOW()),
+(3, 3, NOW());
+
+
+-- ---------------------------------------
+
+
+create or replace function update_balance(player_id int, amount decimal)
+returns table (update_bank_balance decimal , update_money decimal)
+language plpgsql
+as
+    $$
+
+    begin
+        return query update players set bank_balance = bank_balance + amount , money = money + amount where id = player_id returning bank_balance , money;
+    end;
+    $$;
+
+select * from update_balance(1, -1000);
+-- ball + 1

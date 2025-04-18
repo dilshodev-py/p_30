@@ -1,0 +1,13 @@
+
+
+police_records(O‘yinchi hibsga olinganda saqlanadi.🚔⚖️):
+    id                  → Qamoq unikal identifikatori (primary key). Har bir qamoqqa olish hodisasi uchun avtomatik ID beriladi.
+    player_id           → O‘yinchining players jadvalidagi ID si. Ushbu qamoq o‘yinchiga tegishli ekanligini bildiradi. Agar o‘yinchi o‘chirilsa, uning qamoq yozuvi ham o‘chadi (ON DELETE CASCADE).
+    arresting_officer   → Hibs qilgan ofitserning ismi. Jinoyat sodir etgan o‘yinchini qamagan politsiya ofitserining ismi.
+    jail_time           → Qamoq vaqti (sekundda). O‘yinchi qamoqda qancha vaqt qolganini bildiradi. (Masalan, agar 3600 bo‘lsa, bu 1 soatni anglatadi).
+    bail_amount         → Garov puli. O‘yinchi qamoqdan chiqarilishi uchun to‘lash kerak bo‘lgan garov miqdori.
+    status              → Qamoq holati. Quyidagi qiymatlardan biri bo‘lishi kerak:
+        Jailed          → O‘yinchi hibsda, qamoqda.
+        Released        → O‘yinchi ozod qilindi, qamoqdan chiqarilgan.
+    arrest_time         → Hibsga olish vaqti. O‘yinchi hibsga olingan vaqtni ko‘rsatadi (default CURRENT_TIMESTAMP).
+

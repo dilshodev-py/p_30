@@ -1,0 +1,54 @@
+Loyiha tavsifi:
+    Bu loyiha o'quvchilarga turli fanlar bo'yicha o'qitish jarayonini simulyatsiya qiladi.
+    Har bir fan uchun o'qitish usuli farq qiladi (masalan, matematika o'qitilishi,
+    tarix o'qitilishi va ingliz tili o'qitilishi turlicha bo'ladi).
+    Loyiha polymorphismni qanday ishlatish mumkinligini ko'rsatish uchun turli metodlarni (fanlar o'qitish metodlari)
+    bir xil nom bilan ishlatish orqali amalga oshiriladi.
+
+Loyihani tashkiliy qisimlari:
+
+    Asosiy ob'ektlar:
+        Teacher: O'qituvchi class.
+        MathTeacher, HistoryTeacher, EnglishTeacher: Maxsus fan o'qituvchilarini ifodalovchi sinflar.
+        Vazifa: Har bir fan o'qituvchisi o'ziga xos o'qitish metodiga ega, lekin ular barcha Teacher classning teach() metodini ishlatadilar. Har bir fan o'qituvchisi uchun o'zining usulini qayta aniqlash kerak.
+
+Texnik Zadacha:
+
+    Sinflar tuzish:
+
+        Teacher asosiy sinf sifatida yaratiladi va unda umumiy teach() metodi mavjud bo'ladi. Bu metod o'qituvchi tomonidan o'qitish jarayonini boshlashni ifodalaydi.
+        MathTeacher, HistoryTeacher, EnglishTeacher sinflari esa Teacher classni meros qilib olib, teach() metodini o'ziga xos tarzda qayta aniqlaydi (override qiladi).
+        Polymorphism (Method Overriding):
+
+        Har bir maxsus o'qituvchi class teach() metodini qayta aniqlaydi va o'ziga xos o'qitish usulini ko'rsatadi.
+        Masalan, MathTeacher matematikani o'rgatadi, HistoryTeacher tarixni o'rgatadi, EnglishTeacher esa ingliz tilini o'rgatadi.
+        O'qitish jarayoni polymorphism orqali amalga oshiriladi, ya'ni bir xil teach() metodidan foydalanib, har xil o'qituvchilar turli usullarda o'qitishadi.
+        Loyiha jarayoni:
+
+        School class tuzilib, o'qituvchilarni o'z ichiga oladi.
+        School class turli o'qituvchilarga (har xil fanlar uchun) teach() metodini chaqiradi va har bir o'qituvchi o'zining teach() metodini ishlatadi.
+Texnik Yozuv:
+
+    Teacher class (Asosiy sinf):
+
+        teach() metodi - umumiy o'qitish metodini belgilaydi, ammo hech qanday amaliyot bajarilmaydi. (Bu metodni faqat meros bo'lib olish uchun ishlatamiz.)
+        Maxsus o'qituvchi sinflari (MathTeacher, HistoryTeacher, EnglishTeacher):
+
+        Har biri teach() metodini qayta aniqlaydi va o'ziga xos o'qitish jarayonini ko'rsatadi.
+        School class:
+
+        O'qituvchilarning ro'yxati va har birining teach() metodini chaqirish.
+
+
+Misolda tushuntirish:
+    1. Teacher class:
+        Asosiy teach() metodi bu classda mavjud bo'ladi, lekin u bo'sh yoki umumiy bo'lishi mumkin.
+
+    2. MathTeacher class:
+        teach() metodini qayta yoziladi va matematikani o'rgatadi.
+
+    3. HistoryTeacher class:
+        teach() metodini qayta aniqlaydi va tarixni o'rgatadi.
+
+    4. EnglishTeacher class:
+        teach() metodini qayta aniqlaydi va ingliz tilini o'rgatadi.

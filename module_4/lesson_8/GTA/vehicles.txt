@@ -1,0 +1,15 @@
+
+
+vehicles (O‘yinchilar sotib olgan yoki yutib olgan mashinalarni saqlaydi.):
+
+    id              → Mashinaning unikal identifikatori (primary key). Har bir mashinaga avtomatik tarzda ID beriladi.
+    owner_id        → Mashina egasining players jadvalidagi ID si. Ushbu mashinaning qaysi o‘yinchiga tegishli ekanligini ko‘rsatadi. Agar o‘yinchi o‘chirilsa, unga tegishli barcha mashinalar ham o‘chadi (ON DELETE CASCADE).
+    model           → Mashinaning modeli (masalan, "T20", "Infernus").
+    color           → Mashinaning rangi (masalan, "Qizil", "Ko‘k"). Bu mashinaning asosiy tashqi ko‘rinishini belgilaydi.
+    plate_number    → Davlat raqami (num plate). Har bir mashina uchun takrorlanmas (unique) bo‘lishi kerak (masalan, "XYZ123").
+    insurance       → Sug‘urta bor yoki yo‘qligi. Agar TRUE bo‘lsa, o‘yinchi avariya yoki portlashdan keyin mashinani qayta olish imkoniyatiga ega bo‘ladi.
+    garage_location → Garaj manzili, ya’ni mashina qayerda saqlanayotganini bildiradi (masalan, "Los Santos Custom Garaji").
+    health          → Mashina sog‘lig‘i (%). 0 → Butunlay yo‘q qilingan, 100 → Ideal holat.
+    fuel            → Mashinadagi yoqilg‘i miqdori (%). 0 → Yo‘q, 100 → To‘la.
+    tuning          → Mashina tuning (sozlamalari). JSONB formatida saqlanib, turli xil o‘zgartirishlar (masalan, "turbo": true, "rim_type": "sport", "paint": "black") saqlanishi mumkin.
+    created_at      → Mashina ro‘yxatga olingan sana. Mashina qachon xarid qilingan yoki o‘yinchi tomonidan qo‘shilganligini bildiradi.

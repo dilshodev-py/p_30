@@ -1,0 +1,67 @@
+
+missions(Bu jadval o‘yin ichidagi missiyalar va ularning mukofotlarini boshqarish uchun mo‘ljallangan. 🎯💸)
+
+    id              → Missiya unikal identifikatori (primary key). Har bir missiya uchun avtomatik ID beriladi.
+    name            → Missiya nomi. Missiyaning nomi (masalan, "Bankni o‘g‘irlang", "Qotillikni tekshirish"). NOT NULL chekloviga ega bo‘lib, bu ustun bo‘sh qoldirilishi mumkin emas.
+    reward_money    → Mukofot puli. Missiyani bajarib, olingan mukofot puli (masalan, 5000.00). NOT NULL bo‘lib, missiyani bajarish uchun haq to‘lanadi.
+    reward_xp       → Tajribasi ballari. Missiyani bajarish orqali olingan tajriba ballari (masalan, 500 XP).
+    difficulty      → Missiya murakkabligi. Quyidagi qiymatlardan biri bo‘lishi kerak:
+        Easy        → Yengil missiya
+        Medium      → O‘rta darajadagi missiya
+        Hard        → Qiyin missiya
+    created_at      → Missiya yaratilgan vaqt. Missiyaning yaratilgan sanasi va vaqti, default CURRENT_TIMESTAMP qiymatiga ega.
+
+
+players_missions
+
+    id
+    player_id
+    mission_id
+    status          [in process , completed]
+
+
+
+1-topshiriq:
+    Missiya mukofotini hisoblash funksiyasini yaratish
+    Tavsif:
+
+        Sizga missiya mukofotini hisoblash uchun funksiyani yaratish topshirildi. Missiyaning turiga qarab, o‘yinchi bir nechta mukofotlarni oladi: pul va tajriba ballari. Ushbu funksiya quyidagi parametrlarni qabul qilishi kerak:
+
+            Missiyaning murakkabligi (difficulty) - bu parametr Easy, Medium, yoki Hard bo‘lishi mumkin.
+            Missiyaning mukofot puli (reward_money) - missiya bajarilganida o‘yinchiga beriladigan pul.
+            Missiyaning mukofot tajribasi (reward_xp) - missiya bajarilganida o‘yinchiga beriladigan tajriba ballari.
+    Vazifalar:
+        Funksiya calculate_mission_reward deb nomlanishi kerak.
+        Funksiya quyidagi biznes logikaga asoslanishi kerak:
+        Agar missiya Easy bo‘lsa, mukofot puliga 1.1 (10% ortish) koeffitsientini qo‘shing va tajriba ballariga 1.2 (20% ortish) koeffitsientini qo‘shing.
+        Agar missiya Medium bo‘lsa, mukofot puliga 1.2 (20% ortish) koeffitsientini qo‘shing va tajriba ballariga 1.5 (50% ortish) koeffitsientini qo‘shing.
+        Agar missiya Hard bo‘lsa, mukofot puliga 1.5 (50% ortish) koeffitsientini qo‘shing va tajriba ballariga 2 (100% ortish) koeffitsientini qo‘shing.
+        Funksiya oxirida pul va tajriba ballarini qaytarishi kerak.
+    Kirish parametrlar:
+        difficulty (str): Missiya murakkabligi (Easy, Medium, Hard).
+        reward_money (Decimal): Missiya uchun mukofot puli.
+        reward_xp (int): Missiya uchun mukofot tajribasi ballari.
+    Natija:
+        Funksiya mukofot pulini va tajriba ballarini o‘zgartirilgan qiymatlar bilan qaytarishi kerak.
+
+
+
+1-topshiriq:
+    Missiyalar va o‘yinchilarga to‘langan mukofotlar
+    Tavsif:
+
+        O‘yinchilar uchun to‘langan missiya mukofotlarini ko‘rsatish.
+
+        mission_rewards nomli view yarating, unda quyidagi ma’lumotlar bo‘lishi kerak:
+        O‘yinchining username
+        Missiyaning name va difficulty (murakkablik darajasi)
+        Missiya uchun reward_money va reward_xp
+
+TRIGGER:
+2-topshiriq:
+    Bonus pul mukofotini yaratish
+    Tavsif:
+
+        Agar o‘yinchi missiya muvaffaqiyatli yakunlasa va mukofot pul miqdori 5000 ga teng bo‘lsa, o‘yinchi bonus sifatida 2000 pulni olsin.
+
+        Trigger yarating, bu missions jadvalidagi har bir yangi yozuv kiritilganda va mukofot pul miqdori 5000 ga teng bo‘lsa, o‘yinchining money balansini 2000 ga oshirsin.
